@@ -147,7 +147,7 @@ public class AccountingLedgerApp {
                     reportsYearToDate();
                     break;
                 case 4:
-                    previousYear();
+                    reportsPreviousYear();
                     break;
                 case 5:
 //                    searchForVendor();
@@ -210,7 +210,8 @@ public class AccountingLedgerApp {
         LocalDateTime startOfMonth = LocalDateTime.now().minusMonths(1);
         LocalDateTime today = LocalDateTime.now();
         for (Transaction transaction : transactions) {
-            if (transaction.getLocalDateTime().isAfter(startOfMonth) && transaction.getLocalDateTime().isBefore(today)) {
+            if (transaction.getLocalDateTime().isAfter(startOfMonth)
+                    && transaction.getLocalDateTime().isBefore(today)) {
                 transactionsOverThisMonth.add(transaction);
             }
 
@@ -219,54 +220,71 @@ public class AccountingLedgerApp {
 
     }
 
-    public static void reportsPreviousMonth() {
-        System.out.println("last month");
+    public static  ArrayList<Transaction> filterTransactionsPreviousMonth(ArrayList<com.pluralsight.Transaction>transactions) {
+        ArrayList<Transaction> transactionsOverLastMonth = new ArrayList<>();
 
-//        ArrayList<Transaction> transactions = readingTransaction();
-//        printingDisplayAndTransactions(transactions);
-//
-//        ArrayList<Transaction> transactionsOverLastMonth = new ArrayList<>();
-//
-//        LocalDateTime startOfPreviousMonth = LocalDateTime.now().minusMonths(2);
-//        LocalDateTime endOfPreviousMonth = LocalDateTime.now().plusMonths(2);
-//        for (Transaction transaction : transactions) {
-//            if (transaction.getLocalDateTime().isAfter(startOfPreviousMonth)
-//                    && transaction.getLocalDateTime().isBefore(endOfPreviousMonth)){
-//                transactionsOverLastMonth.add(transaction);
-//            }
+        LocalDateTime startOfPreviousMonth = LocalDateTime.now().minusMonths(2);
+        LocalDateTime endOfPreviousMonth = LocalDateTime.now().plusMonths(2);
+        for (Transaction transaction : transactions) {
+            if (transaction.getLocalDateTime().isAfter(startOfPreviousMonth)
+                    && transaction.getLocalDateTime().isBefore(endOfPreviousMonth)){
+                transactionsOverLastMonth.add(transaction);
+            }
+    }
+        return transactionsOverLastMonth;
+    }
+    public static void transactionsPreviousMonth() {
+
+    }
+    public static void reportsPreviousMonth (){
+        ArrayList<Transaction> transactions = readTransactionsFromFile();
+        ArrayList<Transaction> transactionsOverPreviousMonth = filterTransactionsPreviousMonth(transactions);
+        displayTransactions( transactionsOverPreviousMonth);
+    }
+    public static  ArrayList<Transaction> filterTransactionsYearToDate(ArrayList<com.pluralsight.Transaction>transactions) {
+        ArrayList<Transaction> transactionsOverThisYear = new ArrayList<>();
+
+        LocalDateTime startOfYear = LocalDateTime.now().minusYears(1);
+        LocalDateTime today = LocalDateTime.now();
+        for (Transaction transaction : transactions) {
+            if (transaction.getLocalDateTime().isAfter(startOfYear) && transaction.getLocalDateTime().isBefore(today)) {
+                transactionsOverThisYear.add(transaction);
+        }
+   }
+        return transactionsOverThisYear;
+    }
+    public static void transactionsYearToDate() {
+
     }
     public static void reportsYearToDate() {
-//        ArrayList<Transaction> transactions = readingTransaction();
-//        printingDisplayAndTransactions(transactions);
-//
-//        ArrayList<Transaction> transactionsOverThisYear = new ArrayList<>();
-//
-//        LocalDateTime startOfYear = LocalDateTime.now().minusYears(1);
-//        LocalDateTime today = LocalDateTime.now();
-//        for (Transaction transaction : transactions) {
-//            if (transaction.getLocalDateTime().isAfter(startOfYear) && transaction.getLocalDateTime().isBefore(today)) {
-//                transactionsOverThisYear.add(transaction);
-//        }
-//   }
+        ArrayList<Transaction> transactions = readTransactionsFromFile();
+        ArrayList<Transaction> transactionsYearToDate = filterTransactionsYearToDate(transactions);
+        displayTransactions(transactionsYearToDate);
+    }
+    public static  ArrayList<Transaction> filterTransactionsPreviousYear(ArrayList<com.pluralsight.Transaction>transactions) {
+        ArrayList<Transaction> transactionsOverPreviousYear = new ArrayList<>();
+
+        LocalDateTime startOfMonth = LocalDateTime.now().minusMonths(1);
+        LocalDateTime today = LocalDateTime.now();
+        for (Transaction transaction : transactions) {
+            if (transaction.getLocalDateTime().isAfter(startOfMonth)
+                    && transaction.getLocalDateTime().isBefore(today)) {
+                transactionsOverPreviousYear.add(transaction);
+            }
+
+        }
+        return  transactionsOverPreviousYear;
+    }
+    //FIX THIS TO MAKE IT pRINT ACTUAL PREVIOUS YEAR INFO
+
+    public static void transactionsOverPreviousYear() {
+
     }
 
-    public static void previousYear() {
-//        System.out.println("last year");
-//
-//        ArrayList<Transaction> transactions = readingTransaction();
-//        printingDisplayAndTransactions(transactions);
-//
-//        try {
-//            FileReader fileReader= new FileReader("Capstone-1\\DataFiles\\walter_white_purchase_history.csv");
-//            BufferedReader bufreader = new BufferedReader(fileReader);
-//
-//            bufreader.readLine();
-//
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+    public static void reportsPreviousYear() {
+        ArrayList<Transaction> transactions = readTransactionsFromFile();
+        ArrayList<Transaction> transactionsOverPreviousYear = filterTransactionsPreviousYear(transactions);
+        displayTransactions(transactionsOverPreviousYear);
     }
     public static void showMainMenu() {
         System.out.println("Main Menu");
@@ -281,7 +299,7 @@ public class AccountingLedgerApp {
         System.out.println("\nPress Enter to return to the main menu...");
         input.nextLine();
     }
-}
+    }
 
 
 
@@ -289,6 +307,7 @@ public class AccountingLedgerApp {
 
 
 
-    //use arraylist, make objects, then filter array list for specific object needed.
+
+    //apply changes that craig helped me with on month to date to other reports
 //for (Product p : products){
 //        System.out.printf("ID: %s, Item: %s, Price: $%.2f%n", p.getItemId(), p.getItem(), p.getPrice());
