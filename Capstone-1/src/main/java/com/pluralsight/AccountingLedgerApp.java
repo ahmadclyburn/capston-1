@@ -1,11 +1,10 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 public class AccountingLedgerApp {
     public static Scanner input = new Scanner(System.in);
     public static boolean running = true;
@@ -34,13 +33,14 @@ public class AccountingLedgerApp {
         }
     }
     public static void addingDeposit(){
-        Transactions newDeposit = new Transactions("","","",0.00);
+        Transaction newDeposit = new Transaction(LocalDateTime.now(),"","",0.00);
         savingDepositInfo();
 
     }
 
     private static void savingDepositInfo() {
         try {
+            addingDeposit();
             FileWriter fileWriter= new FileWriter("Capstone-1\\DataFiles\\walter_white_purchase_history.csv");
             BufferedWriter bufWriter = new BufferedWriter(fileWriter);
 
@@ -53,12 +53,13 @@ public class AccountingLedgerApp {
 
     public static void makingPayment() {
 
-        Transactions newPayment = new Transactions("","","",0.00);
+        Transaction newPayment = new Transaction(LocalDateTime.now(),"","",0.00);
         savingPaymentInfo();
     }
 
     private static void savingPaymentInfo() {
         try {
+            makingPayment();
             FileWriter fileWriter= new FileWriter("Capstone-1\\DataFiles\\walter_white_purchase_history.csv");
             BufferedWriter bufWriter = new BufferedWriter(fileWriter);
 
@@ -70,23 +71,6 @@ public class AccountingLedgerApp {
     }
 
 
-    public static void searchForVendor() {
-
-        ArrayList<Transactions> transactions = readingTransaction();
-
-        try {
-            FileReader fileReader= new FileReader("Capstone-1\\DataFiles\\walter_white_purchase_history.csv");
-            BufferedReader bufreader = new BufferedReader(fileReader);
-
-            bufreader.readLine();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     public static void  viewLedgerOptions(){
         System.out.println("Ledger Menu");
@@ -97,7 +81,6 @@ public class AccountingLedgerApp {
         System.out.println("R- Reports");
         System.out.println("H- Home");
 
-        promptReturnToMainMenu();
     }
 
     public static void ledgerPrompter (){
@@ -130,46 +113,12 @@ public class AccountingLedgerApp {
         System.out.println("all transactions");
         System.out.println("_________________");
 
-        ArrayList<Transactions> transactions = readingTransaction();
-        printingDisplayAndTransactions(transactions);
+        ArrayList<Transaction> transactions = readTransactionsFromFile();
+        displayTransactions(transactions);
 
         promptReturnToMainMenu();
     }
 
-    private static void printingDisplayAndTransactions(ArrayList<Transactions>transactions) {
-        for (Transactions transaction: transactions)
-            System.out.println(transaction.display());
-    }
-
-    private static ArrayList<Transactions> readingTransaction() {
-        ArrayList<Transactions> transactions = new ArrayList<>();
-
-        try {
-            FileReader fileReader= new FileReader("Capstone-1\\DataFiles\\walter_white_purchase_history.csv");
-            BufferedReader bufreader = new BufferedReader(fileReader);
-
-            bufreader.readLine();
-
-            String line;
-            while ((line = bufreader.readLine()) != null) {
-                String[] tokens = line.split("\\|");
-
-                LocalDateTime localDateTime = LocalDateTime.parse(tokens[0]);
-                String description = tokens[1];
-                String vendor = tokens[2];
-                double price = Double.parseDouble(tokens[3]);
-                Transactions transaction = new Transactions(localDateTime, description , vendor, price);
-                transactions.add(transaction);
-            }
-            bufreader.close();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return transactions;
-    }
 
     public static void reportsMenuOptions() {
         System.out.println("1- Month to date");
@@ -179,7 +128,7 @@ public class AccountingLedgerApp {
         System.out.println("5- Search for vendor");
         System.out.println("0- Back to last menu");
 
-        promptReturnToMainMenu();
+//        promptReturnToMainMenu();
     }
 
     public static void reportPrompter (){
@@ -187,7 +136,6 @@ public class AccountingLedgerApp {
             reportsMenuOptions();
             int selectedReportsOptions = input.nextInt();
             input.nextLine();
-
             switch(selectedReportsOptions){
                 case 1:
                     reportsMonthToDate();
@@ -202,7 +150,7 @@ public class AccountingLedgerApp {
                     previousYear();
                     break;
                 case 5:
-                    searchForVendor();
+//                    searchForVendor();
                     break;
                 case 0:
                     running =false;
@@ -212,76 +160,113 @@ public class AccountingLedgerApp {
             }
         }
     }
-
-    public static void reportsMonthToDate() {
-        System.out.println("month to today");
-
-        ArrayList<Transactions> transactions = readingTransaction();
-        printingDisplayAndTransactions(transactions);
-
-        ArrayList<Transactions> transactionsOverThisMonth = new ArrayList<>();
-
-        LocalDateTime startOfMonth = LocalDateTime.now().minusMonths(1);
-        LocalDateTime today = LocalDateTime.now();
-        for (Transactions transaction : transactions) {
-            if (transaction.getLocalDateTime().isAfter(startOfMonth) && transaction.getLocalDateTime().isBefore(today)) {
-                transactionsOverThisMonth.add(transaction);
-            }
-
-        }
-
-    }
-
-    public static void reportsPreviousMonth() {
-        System.out.println("last month");
-
-        ArrayList<Transactions> transactions = readingTransaction();
-        printingDisplayAndTransactions(transactions);
-
-        ArrayList<Transactions> transactionsOverLastMonth = new ArrayList<>();
-
-        LocalDateTime startOfPreviousMonth = LocalDateTime.now().minusMonths(2);
-        LocalDateTime endOfPreviousMonth = LocalDateTime.now().plusMonths(2);
-        for (Transactions transaction : transactions) {
-            if (transaction.getLocalDateTime().isAfter(startOfPreviousMonth)
-                    && transaction.getLocalDateTime().isBefore(endOfPreviousMonth)){
-                transactionsOverLastMonth.add(transaction);
-            }
-        }
-    }
-
-    public static void reportsYearToDate() {
-        ArrayList<Transactions> transactions = readingTransaction();
-        printingDisplayAndTransactions(transactions);
-
-        ArrayList<Transactions> transactionsOverThisYear = new ArrayList<>();
-
-        LocalDateTime startOfYear = LocalDateTime.now().minusYears(1);
-        LocalDateTime today = LocalDateTime.now();
-        for (Transactions transaction : transactions) {
-            if (transaction.getLocalDateTime().isAfter(startOfYear) && transaction.getLocalDateTime().isBefore(today)) {
-                transactionsOverThisYear.add(transaction);
-        }
-    }
-    }
-
-    public static void previousYear() {
-        System.out.println("last year");
-
-        ArrayList<Transactions> transactions = readingTransaction();
-        printingDisplayAndTransactions(transactions);
+    private static ArrayList<Transaction> readTransactionsFromFile() {
+        ArrayList<Transaction> transactions = new ArrayList<>();
 
         try {
-            FileReader fileReader= new FileReader("Capstone-1\\DataFiles\\walter_white_purchase_history.csv");
+            FileReader fileReader= new FileReader("DataFiles\\walter_white_purchase_history.csv");
             BufferedReader bufreader = new BufferedReader(fileReader);
 
             bufreader.readLine();
+
+            String line;
+            while ((line = bufreader.readLine()) != null) {
+                String[] tokens = line.split("\\|");
+
+                LocalDateTime localDateTime = LocalDateTime.parse(tokens[0]);
+                String description = tokens[1];
+                String vendor = tokens[2];
+                double price = Double.parseDouble(tokens[3]);
+                Transaction transaction = new Transaction(localDateTime, description , vendor, price);
+                transactions.add(transaction);
+            }
+            bufreader.close();
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return transactions;
+    }
+
+    public static void reportsMonthToDate() {
+        System.out.println("month to today");
+
+        ArrayList<Transaction> transactions = readTransactionsFromFile();
+        ArrayList<Transaction> transactionsOverThisMonth = filterTransactionsMonthToDate(transactions);
+        displayTransactions(transactionsOverThisMonth);
+
+    }
+
+    private static void displayTransactions(ArrayList<Transaction>transactions) {
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction.display());
+        }
+    }
+    public static ArrayList<Transaction> filterTransactionsMonthToDate(ArrayList<Transaction>transactions) {
+        ArrayList<Transaction> transactionsOverThisMonth = new ArrayList<>();
+
+        LocalDateTime startOfMonth = LocalDateTime.now().minusMonths(1);
+        LocalDateTime today = LocalDateTime.now();
+        for (Transaction transaction : transactions) {
+            if (transaction.getLocalDateTime().isAfter(startOfMonth) && transaction.getLocalDateTime().isBefore(today)) {
+                transactionsOverThisMonth.add(transaction);
+            }
+
+        }
+        return  transactionsOverThisMonth;
+
+    }
+
+    public static void reportsPreviousMonth() {
+        System.out.println("last month");
+
+//        ArrayList<Transaction> transactions = readingTransaction();
+//        printingDisplayAndTransactions(transactions);
+//
+//        ArrayList<Transaction> transactionsOverLastMonth = new ArrayList<>();
+//
+//        LocalDateTime startOfPreviousMonth = LocalDateTime.now().minusMonths(2);
+//        LocalDateTime endOfPreviousMonth = LocalDateTime.now().plusMonths(2);
+//        for (Transaction transaction : transactions) {
+//            if (transaction.getLocalDateTime().isAfter(startOfPreviousMonth)
+//                    && transaction.getLocalDateTime().isBefore(endOfPreviousMonth)){
+//                transactionsOverLastMonth.add(transaction);
+//            }
+    }
+    public static void reportsYearToDate() {
+//        ArrayList<Transaction> transactions = readingTransaction();
+//        printingDisplayAndTransactions(transactions);
+//
+//        ArrayList<Transaction> transactionsOverThisYear = new ArrayList<>();
+//
+//        LocalDateTime startOfYear = LocalDateTime.now().minusYears(1);
+//        LocalDateTime today = LocalDateTime.now();
+//        for (Transaction transaction : transactions) {
+//            if (transaction.getLocalDateTime().isAfter(startOfYear) && transaction.getLocalDateTime().isBefore(today)) {
+//                transactionsOverThisYear.add(transaction);
+//        }
+//   }
+    }
+
+    public static void previousYear() {
+//        System.out.println("last year");
+//
+//        ArrayList<Transaction> transactions = readingTransaction();
+//        printingDisplayAndTransactions(transactions);
+//
+//        try {
+//            FileReader fileReader= new FileReader("Capstone-1\\DataFiles\\walter_white_purchase_history.csv");
+//            BufferedReader bufreader = new BufferedReader(fileReader);
+//
+//            bufreader.readLine();
+//
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
     public static void showMainMenu() {
         System.out.println("Main Menu");
@@ -296,7 +281,12 @@ public class AccountingLedgerApp {
         System.out.println("\nPress Enter to return to the main menu...");
         input.nextLine();
     }
-    }
+}
+
+
+
+
+
 
 
     //use arraylist, make objects, then filter array list for specific object needed.
