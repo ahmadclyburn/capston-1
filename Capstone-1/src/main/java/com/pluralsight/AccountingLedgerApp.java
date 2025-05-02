@@ -25,24 +25,23 @@ public class AccountingLedgerApp {
                     ledgerPrompter();
                     break;
                 case "X":
-                    System.out.println("goodbye");
+                    System.out.println("Goodbye");
                     running = false;
                     break;
                 default:
-                    System.out.println("invalid menu option.try again");
+                    System.out.println("Invalid menu option.try again");
             }
         }
     }
 
     public static void addingDeposit() {
-        System.out.println("");
-        System.out.println("\nAdd deposit");
+        System.out.println("\nAdding deposit");
         System.out.println("---------------------");
 
-        System.out.print("\nenter description: ");
+        System.out.print("\nEnter description: ");
         String description = input.nextLine();
 
-        System.out.print("\nenter vendor: ");
+        System.out.print("\nEnter vendor: ");
         String vendor = input.nextLine();
 
         System.out.print("\nEnter amount: ");
@@ -69,6 +68,7 @@ public class AccountingLedgerApp {
     }
 
     public static Transaction.Payment gettingPaymentInfo() {
+        System.out.println("Making a Payment");
         System.out.println("-------------------------------");
         System.out.println("please provide debit information");
         String debitForPayment = input.nextLine();
@@ -151,7 +151,7 @@ public class AccountingLedgerApp {
     public static void showAllTransactions() {
         System.out.println(" ");
         System.out.println("----------------");
-        System.out.println("all transactions");
+        System.out.println("Viewing All transactions");
         System.out.println("_________________");
         System.out.println();
 
@@ -265,7 +265,7 @@ public class AccountingLedgerApp {
     public static void reportsMonthToDate() {
         System.out.println(" ");
         System.out.println("---------------");
-        System.out.println("month to today");
+        System.out.println("This Month to Today");
 
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsOverThisMonth = filterTransactionsMonthToDate(transactions);
@@ -288,6 +288,10 @@ public class AccountingLedgerApp {
     }
 
     public static void reportsPreviousMonth() {
+        System.out.println(" ");
+        System.out.println("---------------");
+        System.out.println("Last Month");
+
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsOverPreviousMonth = filterTransactionsPreviousMonth(transactions);
         displayTransactions(transactionsOverPreviousMonth);
@@ -307,6 +311,10 @@ public class AccountingLedgerApp {
     }
 
     public static void reportsYearToDate() {
+        System.out.println(" ");
+        System.out.println("---------------");
+        System.out.println("This Year to Today");
+
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsYearToDate = filterTransactionsYearToDate(transactions);
         displayTransactions(transactionsYearToDate);
@@ -328,6 +336,10 @@ public class AccountingLedgerApp {
     }
 
     public static void reportsPreviousYear() {
+        System.out.println(" ");
+        System.out.println("---------------");
+        System.out.println("Last Years Reports");
+
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsOverPreviousYear = filterTransactionsPreviousYear(transactions);
         displayTransactions(transactionsOverPreviousYear);
@@ -335,6 +347,7 @@ public class AccountingLedgerApp {
 
     public static void showMainMenu() {
         System.out.println(" ");
+        System.out.println("Welcome to Accounting Leger");
         System.out.println("---------");
         System.out.println("Main Menu");
         System.out.println("___________");
@@ -359,8 +372,7 @@ public class AccountingLedgerApp {
                 deposits.add(transaction);
             }
         }
-        displayTransactions(deposits);
-        promptReturnToMainMenu();
+        displayTransactions(deposits);promptReturnToMainMenu();
     }
 
     public static void showingPayments() {
@@ -371,8 +383,7 @@ public class AccountingLedgerApp {
                 payment.add(transaction);
             }
         }
-        displayTransactions(payment);
-        promptReturnToMainMenu();
+        displayTransactions(payment);promptReturnToMainMenu();
     }
 
     public static void searchForVendor() {

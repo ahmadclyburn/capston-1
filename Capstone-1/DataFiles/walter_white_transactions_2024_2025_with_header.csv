@@ -1,34 +1,32 @@
 date|time|description|vendor|amount
-2024-01-10|08:00:00|RV Purchase|Crazy 8 Motors|4800.00
-2024-02-05|13:45:00|Lab Equipment|Scientific Supply Co|2400.00
-2024-03-10|10:30:00|Initial Cook Supplies|Los Pollos Hermanos|420.00
-2024-04-03|15:15:00|Medical Bills|ABQ Oncology Center|13000.00
-2024-05-18|11:00:00|Gas Mask Order|Surplus Depot|375.00
-2024-06-02|09:30:00|Storage Unit Rental|ABQ Storage Units|160.00
-2024-07-25|10:15:00|RV Repairs|Junkyard Joe's|850.00
+2024-01-10|08:00:00|RV Purchase|Crazy 8 Motors|-4800.00
+2024-02-05|13:45:00|Lab Equipment|Scientific Supply Co|-2400.00
+2024-03-10|10:30:00|Initial Cook Supplies|Los Pollos Hermanos|-420.00
+2024-04-03|15:15:00|Medical Bills|ABQ Oncology Center|-13000.00
+2024-05-18|11:00:00|Gas Mask Order|Surplus Depot|-375.00
+2024-06-02|09:30:00|Storage Unit Rental|ABQ Storage Units|-160.00
+2024-07-25|10:15:00|RV Repairs|Junkyard Joe's|-850.00
 2024-08-05|16:45:00|Deposit|Tuco’s Payment|15500.00
-2024-09-01|13:00:00|Laundry Business Setup|Lavandería Brillante|51000.00
-2024-10-20|14:20:00|Hazmat Suits|SafetyFirst Supplies|780.00
-2024-11-04|08:45:00|Cash Pickup Gas|Shell Station|68.25
-2024-12-12|12:30:00|Mobile Phone Burner|Corner Electronics|48.00
+2024-09-01|13:00:00|Laundry Business Setup|Lavandería Brillante|-51000.00
+2024-10-20|14:20:00|Hazmat Suits|SafetyFirst Supplies|-780.00
+2024-11-04|08:45:00|Cash Pickup Gas|Shell Station|-68.25
+2024-12-12|12:30:00|Mobile Phone Burner|Corner Electronics|-48.00
 2025-01-01|10:10:00|Deposit|Drug Sale|26000.00
-2025-01-25|15:30:00|Lab Ventilation Parts|AirTech Solutions|2150.00
-2025-02-10|09:20:00|Security Cameras|SpyEye Surveillance|630.00
+2025-01-25|15:30:00|Lab Ventilation Parts|AirTech Solutions|-2150.00
+2025-02-10|09:20:00|Security Cameras|SpyEye Surveillance|-630.00
 2025-02-28|17:40:00|Deposit|Saul Goodman Escrow|18500.00
-2025-03-08|12:10:00|Medical Treatment|ABQ Hospital|7800.00
-2025-03-22|14:50:00|Legal Services|Saul Goodman|10500.00
-2025-03-31|11:00:00|Car Wash Down Payment|Bogdan’s Wash|33000.00
-2025-04-01|10:30:00|Fumigation Tent|Vamonos Pest|1100.00
-2025-04-03|15:05:00|Fake ID Setup|Better Call Saul Inc|520.00
+2025-03-08|12:10:00|Medical Treatment|ABQ Hospital|-7800.00
+2025-03-22|14:50:00|Legal Services|Saul Goodman|-10500.00
+2025-03-31|11:00:00|Car Wash Down Payment|Bogdan’s Wash|-33000.00
+2025-04-01|10:30:00|Fumigation Tent|Vamonos Pest|-1100.00
+2025-04-03|15:05:00|Fake ID Setup|Better Call Saul Inc|-520.00
 2025-04-04|09:45:00|Deposit|Gus Fring Advance|52000.00
-2025-04-08|10:20:00|Industrial Barrels|BarrelCo|930.00
-2025-04-11|13:15:00|Fuel for Cook Site|Chevron|90.00
-2025-04-14|08:25:00|Poison Ingredients|Chemical Lab Supply|130.00
-2025-04-17|12:00:00|Plane Tickets|ABQ Travel Agency|640.00
+2025-04-08|10:20:00|Industrial Barrels|BarrelCo|-930.00
+2025-04-11|13:15:00|Fuel for Cook Site|Chevron|-90.00
+2025-04-14|08:25:00|Poison Ingredients|Chemical Lab Supply|-130.00
+2025-04-17|12:00:00|Plane Tickets|ABQ Travel Agency|-640.00
 2025-04-20|09:10:00|Deposit|Madrigal Payments|77000.00
-2025-04-22|10:30:00|Truck Rental|Rent-A-Rig|470.00
-2025-04-24|14:00:00|Nursing Home Donation|Casa Tranquila|10500.00
-2025-04-26|10:40:00|Incinerator Purchase|Industrial Waste Solutions|2100.00
-2025-04-28|09:50:00|Car Wash Renovation|Contractor Mike|12500.00
-2025-05-02|09:55:21|New Payment Using Debit Card Number|8989898|-90.89
-2025-05-02|09:56:56|New Payment Using Debit Card Number|232434|-34.34
+2025-04-22|10:30:00|Truck Rental|Rent-A-Rig|-470.00
+2025-04-24|14:00:00|Nursing Home Donation|Casa Tranquila|-10500.00
+2025-04-26|10:40:00|Incinerator Purchase|Industrial Waste Solutions|-2100.00
+2025-04-28|09:50:00|Car Wash Renovation|Contractor Mike|-12500.00
