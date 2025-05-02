@@ -8,9 +8,8 @@ import java.time.format.DateTimeFormatter;
 
 public class AccountingLedgerApp {
     public static Scanner input = new Scanner(System.in);
-    public static boolean running = true;
-
     public static void main(String[] args) {
+        boolean running = true;
         while (running) {
             showMainMenu();
             String userSelectedOption = input.nextLine();
@@ -36,6 +35,7 @@ public class AccountingLedgerApp {
     }
 
     public static void addingDeposit() {
+        System.out.println("");
         System.out.println("\nAdd deposit");
         System.out.println("---------------------");
 
@@ -48,8 +48,7 @@ public class AccountingLedgerApp {
         System.out.print("\nEnter amount: ");
         double price = input.nextDouble();
 
-        System.out.println("thank you returning to menu" +
-                "");
+        System.out.println("thank you. returning to menu" );
         Transaction transaction = new Transaction(LocalDateTime.now(), description, vendor, price);
         savingDepositInfo(transaction);
         promptReturnToMainMenu();
@@ -65,11 +64,12 @@ public class AccountingLedgerApp {
             bufWriter.write(transaction.toString());
             bufWriter.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("****invalid file****");;
         }
     }
 
     public static Transaction.Payment gettingPaymentInfo() {
+        System.out.println("-------------------------------");
         System.out.println("please provide debit information");
         String debitForPayment = input.nextLine();
 
@@ -77,7 +77,10 @@ public class AccountingLedgerApp {
         double paymentAmount = input.nextDouble();
         input.nextLine();
 
+
         Transaction.Payment payment = new Transaction.Payment();
+        payment.setDebitInfo(debitForPayment);
+        payment.setPaymentAmount(paymentAmount);
         return payment;
 
     }
@@ -93,15 +96,21 @@ public class AccountingLedgerApp {
 
             bufWriter.write("\n");
             bufWriter.write(String.format("%s|New Payment Using Debit Card Number|%s|-%.2f",
-                    LocalDateTime.now().format(formatter), payment.getDebitInfo(), payment.getPaymentAmmount()));
+                    LocalDateTime.now().format(formatter), payment.getDebitInfo(), payment.getPaymentAmount()));
             bufWriter.close();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("*****file not found*****");
+        }catch (NumberFormatException e) {
+            System.out.println("*****Invalid number format in file: ****");
         }
+        System.out.println("--Payment Has Been Processed. Thank You.--");
+        System.out.println("Returning to menu");
     }
 
     public static void viewLedgerOptions() {
+        System.out.println(" ");
+        System.out.println("-----------");
         System.out.println("Ledger Menu");
         System.out.println("___________");
         System.out.println("A- Vew All Transactions");
@@ -112,6 +121,7 @@ public class AccountingLedgerApp {
     }
 
     public static void ledgerPrompter() {
+        boolean running = true;
         while (running) {
             viewLedgerOptions();
             String selectedLedgerOption = input.nextLine();
@@ -133,12 +143,14 @@ public class AccountingLedgerApp {
                     running = false;
                     break;
                 default:
-                    System.out.println("invalid option");
+                    System.out.println("*****invalid option****");
             }
         }
     }
 
     public static void showAllTransactions() {
+        System.out.println(" ");
+        System.out.println("----------------");
         System.out.println("all transactions");
         System.out.println("_________________");
         System.out.println();
@@ -150,6 +162,10 @@ public class AccountingLedgerApp {
     }
 
     public static void reportsMenuOptions() {
+        System.out.println(" ");
+        System.out.println("---------------");
+        System.out.println("Reports Options");
+        System.out.println("---------------");
         System.out.println("1- Month to date");
         System.out.println("2- Previous month");
         System.out.println("3- Year to date");
@@ -159,6 +175,8 @@ public class AccountingLedgerApp {
     }
 
     public static void reportPrompter() {
+        boolean running = true;
+
         while (running) {
             reportsMenuOptions();
             int selectedReportsOptions = input.nextInt();
@@ -181,9 +199,11 @@ public class AccountingLedgerApp {
                     break;
                 case 0:
                     ledgerPrompter();
+                    running =false;
                     break;
+
                 default:
-                    System.out.println("invalid option.");
+                    System.out.println("****invalid option****");
             }
         }
     }
@@ -211,15 +231,17 @@ public class AccountingLedgerApp {
             bufreader.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("error reading code");
+            System.out.println("****error reading code****");
         } catch (IOException e) {
-            System.out.println("invalid number format in file");
+            System.out.println("****invalid number format in file****");
         }
         return transactions;
     }
 
     private static void displayTransactions(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
+            System.out.println("All Transactions Found.");
+            System.out.println("-----------------------");
             System.out.println(transaction.display());
         }
     }
@@ -241,12 +263,13 @@ public class AccountingLedgerApp {
     }
 
     public static void reportsMonthToDate() {
+        System.out.println(" ");
+        System.out.println("---------------");
         System.out.println("month to today");
 
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsOverThisMonth = filterTransactionsMonthToDate(transactions);
         displayTransactions(transactionsOverThisMonth);
-        promptReturnToMainMenu();
 
     }
 
@@ -268,7 +291,6 @@ public class AccountingLedgerApp {
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsOverPreviousMonth = filterTransactionsPreviousMonth(transactions);
         displayTransactions(transactionsOverPreviousMonth);
-        promptReturnToMainMenu();
     }
 
     public static ArrayList<Transaction> filterTransactionsYearToDate(ArrayList<com.pluralsight.Transaction> transactions) {
@@ -288,7 +310,6 @@ public class AccountingLedgerApp {
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsYearToDate = filterTransactionsYearToDate(transactions);
         displayTransactions(transactionsYearToDate);
-        promptReturnToMainMenu();
     }
 
     public static ArrayList<Transaction> filterTransactionsPreviousYear(ArrayList<com.pluralsight.Transaction> transactions) {
@@ -310,10 +331,11 @@ public class AccountingLedgerApp {
         ArrayList<Transaction> transactions = readTransactionsFromFile();
         ArrayList<Transaction> transactionsOverPreviousYear = filterTransactionsPreviousYear(transactions);
         displayTransactions(transactionsOverPreviousYear);
-        promptReturnToMainMenu();
     }
 
     public static void showMainMenu() {
+        System.out.println(" ");
+        System.out.println("---------");
         System.out.println("Main Menu");
         System.out.println("___________");
         System.out.println("D- Add Deposit");
@@ -325,10 +347,7 @@ public class AccountingLedgerApp {
 
     private static void promptReturnToMainMenu() {
         System.out.println("\nPress Enter to go back");
-        boolean backToMain = true;
-        if (backToMain == (false)) {
-            running = false;
-        }
+        input.nextLine();
     }
 
     public static void showingDeposits() {
@@ -357,11 +376,11 @@ public class AccountingLedgerApp {
     }
 
     public static void searchForVendor() {
+        System.out.println(" ");
         System.out.println("what vendor do you want to find");
         input.nextLine();
         String vendorUserWants = input.nextLine().trim().toLowerCase();
 
-        boolean foundMatch = false;
 
         try {BufferedReader bufreader = new BufferedReader(new FileReader("C:\\pluralsight\\capston-1\\Capstone-1\\DataFiles\\walter_white_transactions_2024_2025_with_header.csv"));
             bufreader.readLine();
@@ -373,9 +392,8 @@ public class AccountingLedgerApp {
                     String vendor = parts[3].toLowerCase();
 
                     if (description.contains(vendorUserWants) || vendor.contains(vendorUserWants)) {
-                        System.out.printf("Date: %s %s | Description: %s | Vendor: %s | Amount: %s%n",
+                        System.out.printf("All vendor occurences\nDate: %s %s | Description: %s | Vendor: %s | Amount: %s%n",
                                 parts[0], parts[1], parts[2], parts[3], parts[4]);
-                        foundMatch = true;
                     }
                 }
             }
@@ -384,4 +402,3 @@ public class AccountingLedgerApp {
         }
     }
 }
-//search for vendor---input for vendor name, file reader to find vendor,print all instances of vendor.

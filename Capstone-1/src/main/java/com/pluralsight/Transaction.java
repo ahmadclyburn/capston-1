@@ -64,13 +64,13 @@ public class Transaction {
 
     public static class Payment {
        private String debitInfo;
-       private double paymentAmmount;
-        public double getPaymentAmmount() {
-            return paymentAmmount;
+       private double paymentAmount;
+        public double getPaymentAmount() {
+            return paymentAmount;
         }
 
-        public void setPaymentAmmount(double paymentAmmount) {
-            this.paymentAmmount = paymentAmmount;
+        public void setPaymentAmount(double paymentAmount) {
+            this.paymentAmount = paymentAmount;
         }
 
         public String getDebitInfo() {
