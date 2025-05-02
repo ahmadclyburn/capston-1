@@ -56,10 +56,29 @@ public class Transaction {
  }
     @Override
     public String toString() {
-        return "Transactions-" +
-                "localDateTime: " + localDateTime +
-                ", description: " + description +
-                ", vendor=: " + vendor+
-                ", price: " + price ;
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm:ss");
+
+        String transactionDisplay = String.format("%s|%s|%s|%.2f", localDateTime.format(dateFormat),description,vendor,price);
+        return transactionDisplay;
+}
+
+    public static class Payment {
+       private String debitInfo;
+       private double paymentAmmount;
+        public double getPaymentAmmount() {
+            return paymentAmmount;
+        }
+
+        public void setPaymentAmmount(double paymentAmmount) {
+            this.paymentAmmount = paymentAmmount;
+        }
+
+        public String getDebitInfo() {
+            return debitInfo;
+        }
+
+        public void setDebitInfo(String debitInfo) {
+            this.debitInfo = debitInfo;
+        }
     }
 }
