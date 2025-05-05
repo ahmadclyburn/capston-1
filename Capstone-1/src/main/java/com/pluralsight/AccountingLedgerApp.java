@@ -35,7 +35,7 @@ public class AccountingLedgerApp {
     }
 
     public static void addingDeposit() {
-        System.out.println("\nAdding deposit");
+        System.out.println("\n---Adding deposit---");
         System.out.println("---------------------");
 
         System.out.print("\nEnter description: ");
@@ -51,7 +51,6 @@ public class AccountingLedgerApp {
         Transaction transaction = new Transaction(LocalDateTime.now(), description, vendor, price);
         savingDepositInfo(transaction);
         promptReturnToMainMenu();
-
     }
 
     private static void savingDepositInfo(Transaction transaction) {
@@ -62,27 +61,27 @@ public class AccountingLedgerApp {
             bufWriter.write("\n");
             bufWriter.write(transaction.toString());
             bufWriter.close();
+
         } catch (IOException e) {
-            System.out.println("****invalid file****");;
+            System.out.println("****invalid file****");
         }
     }
 
     public static Transaction.Payment gettingPaymentInfo() {
-        System.out.println("Making a Payment");
-        System.out.println("-------------------------------");
+        System.out.println("---Making a Payment---");
+        System.out.println("----------------------");
         System.out.println("please provide debit information");
         String debitForPayment = input.nextLine();
 
         System.out.println("what is  the payment amount");
-        double paymentAmount = input.nextDouble();
-        input.nextLine();
-
+            double paymentAmount = input.nextDouble();
+            input.nextLine();
 
         Transaction.Payment payment = new Transaction.Payment();
         payment.setDebitInfo(debitForPayment);
         payment.setPaymentAmount(paymentAmount);
-        return payment;
 
+        return payment;
     }
 
     public static void savingPaymentInfo() {
@@ -109,14 +108,14 @@ public class AccountingLedgerApp {
     }
 
     public static void viewLedgerOptions() {
-        System.out.println(" ");
+        System.out.println("\n\n\n\n");
         System.out.println("-----------");
         System.out.println("Ledger Menu");
         System.out.println("___________");
-        System.out.println("A- Vew All Transactions");
-        System.out.println("D- View All Deposits");
-        System.out.println("P- View All Payment");
-        System.out.println("R- View Reports");
+        System.out.println("A- Vew All Transactions\n");
+        System.out.println("D- View All Deposits\n");
+        System.out.println("P- View All Payment\n");
+        System.out.println("R- View Reports\n");
         System.out.println("H- Home");
     }
 
@@ -160,17 +159,39 @@ public class AccountingLedgerApp {
 
         promptReturnToMainMenu();
     }
+    public static void showingDeposits() {
+        ArrayList<Transaction> transactions = readTransactionsFromFile();
+        ArrayList<Transaction> deposits = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getPrice() > 0) {
+                deposits.add(transaction);
+            }
+        }
+        displayTransactions(deposits);promptReturnToMainMenu();
+    }
+    public static void showingPayments() {
+        ArrayList<Transaction> transactions = readTransactionsFromFile();
+        ArrayList<Transaction> payment = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getPrice() < 0) {
+                payment.add(transaction);
+            }
+        }
+        displayTransactions(payment);promptReturnToMainMenu();
+    }
 
     public static void reportsMenuOptions() {
-        System.out.println(" ");
+        System.out.println("\n\n\n\n");
         System.out.println("---------------");
         System.out.println("Reports Options");
         System.out.println("---------------");
-        System.out.println("1- Month to date");
-        System.out.println("2- Previous month");
-        System.out.println("3- Year to date");
-        System.out.println("4- Previous year");
-        System.out.println("5- Search for vendor");
+        System.out.println("1- Month to date\n");
+        System.out.println("2- Previous month\n");
+        System.out.println("3- Year to date\n");
+        System.out.println("4- Previous year\n");
+        System.out.println("5- Search for vendor\n");
         System.out.println("0- Back to last menu");
     }
 
@@ -239,10 +260,10 @@ public class AccountingLedgerApp {
     }
 
     private static void displayTransactions(ArrayList<Transaction> transactions) {
+        System.out.println("All Transactions Found");
         for (Transaction transaction : transactions) {
-            System.out.println("All Transactions Found.");
             System.out.println("-----------------------");
-            System.out.println(transaction.display());
+            System.out.println(transaction.toString());
         }
     }
 
@@ -251,6 +272,7 @@ public class AccountingLedgerApp {
 
         LocalDateTime startOfMonth = LocalDateTime.now().minusMonths(1);
         LocalDateTime today = LocalDateTime.now();
+
         for (Transaction transaction : transactions) {
             if (transaction.getLocalDateTime().isAfter(startOfMonth)
                     && transaction.getLocalDateTime().isBefore(today)) {
@@ -278,6 +300,7 @@ public class AccountingLedgerApp {
 
         LocalDateTime startOfPreviousMonth = LocalDateTime.now().minusMonths(2);
         LocalDateTime endOfPreviousMonth = LocalDateTime.now().minusMonths(1);
+
         for (Transaction transaction : transactions) {
             if (transaction.getLocalDateTime().isAfter(startOfPreviousMonth)
                     && transaction.getLocalDateTime().isBefore(endOfPreviousMonth)) {
@@ -302,6 +325,7 @@ public class AccountingLedgerApp {
 
         LocalDateTime startOfYear = LocalDateTime.now().minusYears(1);
         LocalDateTime today = LocalDateTime.now();
+
         for (Transaction transaction : transactions) {
             if (transaction.getLocalDateTime().isAfter(startOfYear) && transaction.getLocalDateTime().isBefore(today)) {
                 transactionsOverThisYear.add(transaction);
@@ -325,6 +349,7 @@ public class AccountingLedgerApp {
 
         LocalDateTime startOfMonth = LocalDateTime.now().minusYears(2);
         LocalDateTime today = LocalDateTime.now().minusYears(1);
+
         for (Transaction transaction : transactions) {
             if (transaction.getLocalDateTime().isAfter(startOfMonth)
                     && transaction.getLocalDateTime().isBefore(today)) {
@@ -345,47 +370,6 @@ public class AccountingLedgerApp {
         displayTransactions(transactionsOverPreviousYear);
     }
 
-    public static void showMainMenu() {
-        System.out.println(" ");
-        System.out.println("Welcome to Accounting Leger");
-        System.out.println("---------");
-        System.out.println("Main Menu");
-        System.out.println("___________");
-        System.out.println("D- Add Deposit");
-        System.out.println("P- Make payment");
-        System.out.println("L- View ledger");
-        System.out.println("X- Exit");
-
-    }
-
-    private static void promptReturnToMainMenu() {
-        System.out.println("\nPress Enter to go back");
-        input.nextLine();
-    }
-
-    public static void showingDeposits() {
-        ArrayList<Transaction> transactions = readTransactionsFromFile();
-        ArrayList<Transaction> deposits = new ArrayList<>();
-
-        for (Transaction transaction : transactions) {
-            if (transaction.getPrice() > 0) {
-                deposits.add(transaction);
-            }
-        }
-        displayTransactions(deposits);promptReturnToMainMenu();
-    }
-
-    public static void showingPayments() {
-        ArrayList<Transaction> transactions = readTransactionsFromFile();
-        ArrayList<Transaction> payment = new ArrayList<>();
-        for (Transaction transaction : transactions) {
-            if (transaction.getPrice() < 0) {
-                payment.add(transaction);
-            }
-        }
-        displayTransactions(payment);promptReturnToMainMenu();
-    }
-
     public static void searchForVendor() {
         System.out.println(" ");
         System.out.println("what vendor do you want to find");
@@ -396,14 +380,16 @@ public class AccountingLedgerApp {
         try {BufferedReader bufreader = new BufferedReader(new FileReader("C:\\pluralsight\\capston-1\\Capstone-1\\DataFiles\\walter_white_transactions_2024_2025_with_header.csv"));
             bufreader.readLine();
             String line;
+
             while ((line = bufreader.readLine()) != null) {
                 String[] parts = line.split("\\|");
+
                 if (parts.length >=5) {
                     String description = parts[2].toLowerCase();
                     String vendor = parts[3].toLowerCase();
 
                     if (description.contains(vendorUserWants) || vendor.contains(vendorUserWants)) {
-                        System.out.printf("All vendor occurences\nDate: %s %s | Description: %s | Vendor: %s | Amount: %s%n",
+                        System.out.printf("\nAll vendor occurrences\n--------------\nDate: %s %s | Description: %s | Vendor: %s | Amount: %s%n",
                                 parts[0], parts[1], parts[2], parts[3], parts[4]);
                     }
                 }
@@ -411,5 +397,22 @@ public class AccountingLedgerApp {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void showMainMenu() {
+        System.out.println(" ");
+        System.out.println("Welcome to Accounting Leger");
+        System.out.println("---Main Menu---");
+        System.out.println("_______________");
+        System.out.println("D- Add Deposit\n");
+        System.out.println("P- Make payment\n");
+        System.out.println("L- View ledger\n");
+        System.out.println("X- Exit");
+
+    }
+
+    private static void promptReturnToMainMenu() {
+        System.out.println("\nPress Enter to go back");
+        input.nextLine();
     }
 }
