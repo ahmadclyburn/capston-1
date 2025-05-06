@@ -270,7 +270,7 @@ public class AccountingLedgerApp {
     public static ArrayList<Transaction> filterTransactionsMonthToDate(ArrayList<Transaction> transactions) {
         ArrayList<Transaction> transactionsOverThisMonth = new ArrayList<>();
 
-        LocalDateTime startOfMonth = LocalDateTime.now().minusMonths(1);
+        LocalDateTime startOfMonth = LocalDateTime.now().withDayOfMonth(1);
         LocalDateTime today = LocalDateTime.now();
 
         for (Transaction transaction : transactions) {
@@ -298,8 +298,8 @@ public class AccountingLedgerApp {
     public static ArrayList<Transaction> filterTransactionsPreviousMonth(ArrayList<com.pluralsight.Transaction> transactions) {
         ArrayList<Transaction> transactionsOverLastMonth = new ArrayList<>();
 
-        LocalDateTime startOfPreviousMonth = LocalDateTime.now().minusMonths(2);
-        LocalDateTime endOfPreviousMonth = LocalDateTime.now().minusMonths(1);
+        LocalDateTime startOfPreviousMonth = LocalDateTime.now().minusMonths(1).withDayOfMonth(1);
+        LocalDateTime endOfPreviousMonth = startOfPreviousMonth.plusMonths(1);
 
         for (Transaction transaction : transactions) {
             if (transaction.getLocalDateTime().isAfter(startOfPreviousMonth)
@@ -323,11 +323,12 @@ public class AccountingLedgerApp {
     public static ArrayList<Transaction> filterTransactionsYearToDate(ArrayList<com.pluralsight.Transaction> transactions) {
         ArrayList<Transaction> transactionsOverThisYear = new ArrayList<>();
 
-        LocalDateTime startOfYear = LocalDateTime.now().minusYears(1);
+        LocalDateTime startOfYear = LocalDateTime.now().withDayOfYear(1);
         LocalDateTime today = LocalDateTime.now();
 
         for (Transaction transaction : transactions) {
-            if (transaction.getLocalDateTime().isAfter(startOfYear) && transaction.getLocalDateTime().isBefore(today)) {
+            if (transaction.getLocalDateTime().isAfter(startOfYear)
+                    && transaction.getLocalDateTime().isBefore(today)) {
                 transactionsOverThisYear.add(transaction);
             }
         }
@@ -347,12 +348,12 @@ public class AccountingLedgerApp {
     public static ArrayList<Transaction> filterTransactionsPreviousYear(ArrayList<com.pluralsight.Transaction> transactions) {
         ArrayList<Transaction> transactionsOverPreviousYear = new ArrayList<>();
 
-        LocalDateTime startOfMonth = LocalDateTime.now().minusYears(2);
-        LocalDateTime today = LocalDateTime.now().minusYears(1);
+        LocalDateTime startOfPreviousYear = LocalDateTime.now().minusYears(1).withDayOfYear(1);
+        LocalDateTime endPreviousYear = startOfPreviousYear.plusYears(1);
 
         for (Transaction transaction : transactions) {
-            if (transaction.getLocalDateTime().isAfter(startOfMonth)
-                    && transaction.getLocalDateTime().isBefore(today)) {
+            if (transaction.getLocalDateTime().isAfter(startOfPreviousYear)
+                    && transaction.getLocalDateTime().isBefore(endPreviousYear)) {
                 transactionsOverPreviousYear.add(transaction);
             }
 

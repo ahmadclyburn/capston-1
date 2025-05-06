@@ -1,0 +1,40 @@
+Guest-
+field- guestId, guestCheckInTime, guestCheckOutTime.
+method- checkingOut(), checkingIn(), getGuestId().
+
+Room-
+field- availableRooms, roomNumber, roomType, roomRate.
+method-assignRoom(), getRoomNumber(), getRoomType(), getRoomRate()
+
+FrontDeskClerk-
+field- clerkId, clerkName, clerkShift
+method- checkId(), getClerkId(), getShift()
+
+RoomService-
+field- roomServiceId, roomServiceMenu, orderStatusSystem
+method- placeOrder(), getOrderStatus(), cancelOrder()
+
+Restaurant-
+field- restaurantId, restaurantName, restaurantMenu
+method- getRestaurantMenu(), placeOrder(), getOrderStatus(), checkOut(), getClerkId()
+
+Reservation or Booking-
+field- reservationId, reservationDate, reservationStatus
+method- createReservation(), cancelReservation(), getReservationStatus(), checkOut(), getClerkId()
+
+Housekeeping-
+field- housekeepingId, housekeepingStaffName, cleaningSchedule
+method- cleanRoom(), getCleaningSchedule(), reportMaintenanceIssue(), checkOut(), getClerkId()
+
+MaintenanceLog-
+field- maintenanceId, maintenanceIssue, maintenanceStatus, getClerkId
+method- reportIssue(), getMaintenanceStatus(), resolveIssue(), getClerkId()
+
+MaintenanceStaff-
+field- maintenanceStaffId, maintenanceStaffName, maintenanceSchedule
+method- getMaintenanceSchedule(), reportIssue(), resolveIssue(), getClerkId()
+
+RoomServiceStaff-
+field- roomServiceStaffId, roomServiceStaffName, orderStatus
+method- getOrderStatus(), placeOrder(), cancelOrder(), getClerkId()
+
